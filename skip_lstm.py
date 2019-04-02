@@ -44,12 +44,10 @@ class skip_torchlstm_cell(nn.Module):
 
 
         # Although the gradient for the threshold is None,
-        # the input of this MLP keeps update and leads to better results than a fixed threshold.
-        # However, still need to find a better way of setting the threshold.
+        # the inputs for this MLP keep update and lead to better results than a fixed threshold.
         # Using the fixed threshold 0.5 is much better than statically subsampled LSTM, 
-        # but no better than this MLP to estimate the threshold.
-        # Setting the gradient for the threshold to grad_output, and using sigmoid(tanh(linear)))
-        # also gives good results.
+        # but no better than using this MLP to estimate the threshold.
+        # However, still need to find a better way of setting the threshold.
         self.threshold_gate_inner_linear = nn.Linear(hidden_size , hidden_size /2)
         self.threshold_gate_LReLU = nn.LeakyReLU()
         self.threshold_gate_out_linear = nn.Linear(hidden_size /2, 1)
